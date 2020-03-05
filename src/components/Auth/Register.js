@@ -6,8 +6,8 @@ import firebase from '../../firebase';
 
 class Register extends React.Component {
     state = {
-        username: 'zeeshansikander',
-        email: 'zeeshansikander1@gmail.com',
+        username: '',
+        email: '@gmail.com',
         password: '123456',
         passwordConfirmation: '123456',
         errors: [],

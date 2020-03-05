@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import firebase from '../../firebase';
 class Login extends React.Component {
     state = {
-        email: 'zeeshansikander1@gmail.com',
+        email: 't.s12@gmail.com',
         password: '123456',
         errors: [],
         loading: false,
