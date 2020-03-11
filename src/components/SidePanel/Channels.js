@@ -26,10 +26,39 @@ class Channels extends React.Component {
             this.addChannel();
         }
     }
+
+    componentDidMount() {
+        this.addListeners();
+    }
+    addListeners = () => {
+        let loadedChannels = []
+        this.state.channelref.on('child_added', snap => {
+            loadedChannels.push(snap.val());
+            this.setState({ channels: loadedChannels })
+            console.log("channels are", this.state.channels)
+        })
+    }
+    changeChannel=channel =>{
+        this.props.setCurrentChannel(channel)
+    }
+    displayChannels = channels => (
+        channels.length > 0 && channels.map(channel => (
+            <Menu.Item
+                key={channel.id}
+                onClick={() => console.log("This Channel is",channel)}
+                name={channel.name}
+                style={{ opacity: 0.7 }}
+            >
+                #{channel.name}
+            </Menu.Item>
+        ))
+    )
+
     addChannel = () => {
-        const { channelref, channelName, channelDetails, user } = this.state;
+        const
+            { channelref, channelName, channelDetails, user } = this.state;
         const key = channelref.push().key;
-        console.log("key is",key)
+        console.log("key is", key)
         const newChannel = {
             id: key,
             name: channelName,
@@ -41,7 +70,7 @@ class Channels extends React.Component {
         };
         channelref.child(key).update(newChannel)
             .then(() => {
-               console.log("channel name is:",channelName)
+
                 this.setState({ channelName: '', channelDetails: '' })
                 this.closeModal();
                 console.log("channel added")
@@ -64,6 +93,8 @@ class Channels extends React.Component {
                     </span>{' '}
                     ({channels.length})<Icon name="add" onClick={this.openModal} />
                     </Menu.Item>
+                    {this.displayChannels(channels)}
+
                     {/* channels */}
                 </Menu.Menu>
                 {/* Add Channel Modal */}
